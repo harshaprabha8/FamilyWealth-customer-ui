@@ -1,0 +1,123 @@
+.container {
+  min-height: calc(100vh - 80px);
+}
+
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-header {
+  border: none;
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  min-height: 45px;
+  border-radius: 7px;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+h4 {
+  font-weight: 600;
+}
+
+hr {
+  margin: 30px 0;
+}
+
+.alert {
+  border-radius: 8px;
+}
+
+.btn {
+  min-height: 45px;
+  font-weight: 600;
+}
+
+.text-danger {
+  display: block;
+  margin-top: 5px;
+}
+
+
+/* ========================= */
+/* SUCCESS POPUP */
+/* ========================= */
+
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 15px;
+}
+
+.success-modal {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+.success-icon {
+  font-size: 38px;
+  margin-bottom: 5px;
+}
+
+.success-modal h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.success-text {
+  color: #6c757d;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.credential-box {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: left;
+}
+
+.credential-label {
+  font-size: 13px;
+  color: #6c757d;
+  font-weight: 600;
+}
+
+.credential-value {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 3px;
+  word-break: break-all;
+}
+
+.success-modal .alert {
+  font-size: 13px;
+  padding: 10px;
+}
+
+.success-modal .btn {
+  margin-top: 5px;
+  min-height: 42px;
+}

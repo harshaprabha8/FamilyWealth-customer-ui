@@ -1,0 +1,452 @@
+<div class="container py-4">
+
+  <!-- ================= HEADER ================= -->
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+      <h2 class="fw-bold mb-1">
+        Family Members
+      </h2>
+
+      <p class="text-muted mb-0">
+        Manage members of your family account
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      routerLink="/dashboard/family/add">
+
+      + Add Family Member
+
+    </button>
+
+  </div>
+
+
+  <!-- ================= ERROR ================= -->
+
+  @if (errorMessage) {
+
+    <div class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+  }
+
+
+  <!-- ================= FAMILY ACCOUNT ================= -->
+
+  <div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-body">
+
+      <div class="row align-items-center">
+
+        <div class="col-md-8">
+
+          <p class="text-muted mb-1">
+            Family Account Number
+          </p>
+
+          <h4 class="fw-bold mb-0">
+            {{ familyAccountNumber }}
+          </h4>
+
+        </div>
+
+        <div class="col-md-4 text-md-end">
+
+          <span class="badge bg-success">
+            Family Active
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= FAMILY MEMBERS ================= -->
+
+  <div class="card shadow-sm border-0">
+
+    <div class="card-body">
+
+      <h5 class="fw-bold mb-3">
+        Family Members
+      </h5>
+
+
+      <!-- LOADING -->
+
+      @if (loading) {
+
+        <div class="text-center py-4">
+
+          <div
+            class="spinner-border text-primary"
+            role="status">
+          </div>
+
+          <p class="text-muted mt-2 mb-0">
+            Loading family members...
+          </p>
+
+        </div>
+
+      }
+
+
+      <!-- TABLE -->
+
+      @if (!loading && familyMembers.length > 0) {
+
+        <div class="table-responsive">
+
+          <table class="table table-hover align-middle">
+
+            <thead>
+
+              <tr>
+
+                <th>Name</th>
+
+                <th>Relationship</th>
+
+                <th>Phone</th>
+
+                <th>Verification</th>
+
+                <th>Action</th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              @for (member of familyMembers; track $index) {
+
+                <tr>
+
+                  <!-- NAME -->
+
+                  <td>
+
+                    <strong>
+                      {{ member.fullName }}
+                    </strong>
+
+                  </td>
+
+
+                  <!-- RELATIONSHIP -->
+
+                  <td>
+
+                    @if (member.role === 'FAMILY_HEAD') {
+
+                      Family Head
+
+                    } @else {
+
+                      {{ member.relationship || 'Family Member' }}
+
+                    }
+
+                  </td>
+
+
+                  <!-- PHONE -->
+
+                  <td>
+
+                    {{ member.phoneNumber || 'Not provided' }}
+
+                  </td>
+
+
+                  <!-- VERIFICATION -->
+
+                  <td>
+
+                    <span class="badge bg-success">
+                      Verified
+                    </span>
+
+                  </td>
+
+
+                  <!-- ACTION -->
+
+                  <td>
+
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-primary"
+                      (click)="viewMember(member)">
+
+                      View
+
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      }
+
+
+      <!-- NO MEMBERS -->
+
+      @if (!loading && familyMembers.length === 0 && !errorMessage) {
+
+        <div class="text-center py-4">
+
+          <p class="text-muted mb-3">
+            No family members found.
+          </p>
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            routerLink="/dashboard/family/add">
+
+            + Add Family Member
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- VIEW MEMBER POPUP -->
+<!-- ================================================= -->
+
+@if (selectedMember) {
+
+  <div class="member-overlay">
+
+    <div class="member-modal">
+
+
+      <!-- POPUP HEADER -->
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h4 class="fw-bold mb-0">
+          Family Member Details
+        </h4>
+
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="closeMember()">
+        </button>
+
+      </div>
+
+
+      <!-- MEMBER DETAILS -->
+
+      <div class="row g-3">
+
+
+        <!-- FULL NAME -->
+
+        <div class="col-md-6">
+
+          <strong>Full Name</strong>
+
+          <p>
+            {{ selectedMember.fullName || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- RELATIONSHIP -->
+
+        <div class="col-md-6">
+
+          <strong>Relationship</strong>
+
+          <p>
+
+            @if (selectedMember.role === 'FAMILY_HEAD') {
+
+              Family Head
+
+            } @else {
+
+              {{ selectedMember.relationship || 'Not provided' }}
+
+            }
+
+          </p>
+
+        </div>
+
+
+        <!-- DATE OF BIRTH -->
+
+        <div class="col-md-6">
+
+          <strong>Date of Birth</strong>
+
+          <p>
+            {{ selectedMember.dateOfBirth || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- GENDER -->
+
+        <div class="col-md-6">
+
+          <strong>Gender</strong>
+
+          <p>
+            {{ selectedMember.gender || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="col-md-6">
+
+          <strong>Phone Number</strong>
+
+          <p>
+            {{ selectedMember.phoneNumber || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="col-md-6">
+
+          <strong>Email</strong>
+
+          <p>
+            {{ selectedMember.email || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- OCCUPATION -->
+
+        <div class="col-md-6">
+
+          <strong>Occupation</strong>
+
+          <p>
+            {{ selectedMember.occupation || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- AADHAAR -->
+
+        <div class="col-md-6">
+
+          <strong>Aadhaar Number</strong>
+
+          <p>
+            {{ selectedMember.aadhaarNumber || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- PAN -->
+
+        <div class="col-md-6">
+
+          <strong>PAN Number</strong>
+
+          <p>
+            {{ selectedMember.panNumber || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- ROLE -->
+
+        <div class="col-md-6">
+
+          <strong>Role</strong>
+
+          <p>
+
+            @if (selectedMember.role === 'FAMILY_HEAD') {
+
+              Family Head
+
+            } @else {
+
+              Family Member
+
+            }
+
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- POPUP FOOTER -->
+
+      <hr>
+
+      <div class="text-end">
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="closeMember()">
+
+          Close
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

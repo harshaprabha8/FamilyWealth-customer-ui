@@ -1,0 +1,20 @@
+body {
+  background-color: #f5f7fa;
+}
+
+.card {
+  border-radius: 15px;
+}
+
+.form-control {
+  height: 45px;
+}
+
+.btn-primary {
+  height: 45px;
+  font-weight: 600;
+}
+
+.alert {
+  font-size: 14px;
+}

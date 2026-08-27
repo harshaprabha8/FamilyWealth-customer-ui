@@ -1,0 +1,127 @@
+<div class="container">
+
+  <div class="row justify-content-center align-items-center min-vh-100">
+
+    <div class="col-md-6">
+
+      <div class="card shadow-lg border-0">
+
+        <div class="card-body p-4">
+
+          <h2 class="text-center fw-bold mb-2">
+            Family Wealth Platform
+          </h2>
+
+          <p class="text-center text-muted mb-4">
+            Sign In To Your Account
+          </p>
+
+          @if(successMessage){
+
+            <div class="alert alert-success text-center">
+              {{ successMessage }}
+            </div>
+
+          }
+
+          @if(errorMessage){
+
+            <div class="alert alert-danger text-center">
+              ❌ {{ errorMessage }}
+            </div>
+
+          }
+
+          <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()">
+
+            <!-- Family Account Number -->
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Family Account Number
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                maxlength="12"
+                formControlName="familyAccountNumber">
+
+              @if(
+                loginForm.get('familyAccountNumber')?.touched &&
+                loginForm.get('familyAccountNumber')?.invalid
+              ){
+
+                <small class="text-danger">
+                  Enter a valid 12-digit Family Account Number.
+                </small>
+
+              }
+
+            </div>
+
+            <!-- Password -->
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Password
+              </label>
+
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password">
+
+              @if(
+                loginForm.get('password')?.touched &&
+                loginForm.get('password')?.invalid
+              ){
+
+                <small class="text-danger">
+                  Enter a valid password.
+                </small>
+
+              }
+
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mt-3"
+              [disabled]="loginForm.invalid">
+
+              Login
+
+            </button>
+
+          </form>
+
+          <div class="text-center mt-4">
+
+            <span>
+              Don't have an account?
+            </span>
+
+            <a
+              routerLink="/register"
+              class="text-decoration-none ms-1">
+
+              Register
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

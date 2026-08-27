@@ -1,0 +1,522 @@
+@if (showSuccessPopup) {
+
+  <div class="success-overlay">
+
+    <div class="success-modal">
+
+      <div class="success-icon">
+        ✅
+      </div>
+
+      <h2>
+        Family Member Added Successfully
+      </h2>
+
+      <p class="success-text">
+        The family member has been added to your family account.
+      </p>
+
+      <div class="credential-box">
+
+        <div class="credential-label">
+          Family Account Number
+        </div>
+
+        <div class="credential-value">
+          {{ createdAccountNumber }}
+        </div>
+
+        <div class="credential-label mt-3">
+          Password
+        </div>
+
+        <div class="credential-value">
+          {{ createdPassword }}
+        </div>
+
+      </div>
+
+      <div class="alert alert-warning mt-3">
+        ⚠️ Please save these login details securely.
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary w-100"
+        (click)="closeSuccessPopup()">
+
+        OK
+
+      </button>
+
+    </div>
+
+  </div>
+
+}
+
+<div class="container py-4">
+
+  <div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+      <div class="card shadow-sm border-0">
+
+        <!-- Header -->
+
+        <div class="card-header bg-primary text-white p-4">
+
+          <h2 class="mb-1">
+            Add Family Member
+          </h2>
+
+          <p class="mb-0">
+            Add a member to your Family Wealth account
+          </p>
+
+        </div>
+
+
+        <div class="card-body p-4">
+
+
+
+
+          <!-- Error Message -->
+
+          @if (errorMessage) {
+
+            <div class="alert alert-danger text-center">
+
+              ❌ {{ errorMessage }}
+
+            </div>
+
+          }
+
+
+          <form
+            [formGroup]="memberForm"
+            (ngSubmit)="onSubmit()">
+
+
+            <!-- ========================= -->
+            <!-- PERSONAL DETAILS -->
+            <!-- ========================= -->
+
+            <h4 class="mb-4">
+              Personal Details
+            </h4>
+
+
+            <!-- Full Name -->
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Full Name *
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="fullName"
+                placeholder="Enter full name">
+
+              @if (
+                memberForm.get('fullName')?.touched &&
+                memberForm.get('fullName')?.invalid
+              ) {
+
+                <small class="text-danger">
+                  Enter 3-50 letters only.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- Relationship + Gender -->
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                  Relationship *
+                </label>
+
+                <select
+                  class="form-select"
+                  formControlName="relationship">
+
+                  <option value="">
+                    Select Relationship
+                  </option>
+
+                  <option value="Father">
+                    Father
+                  </option>
+
+                  <option value="Mother">
+                    Mother
+                  </option>
+
+                  <option value="Spouse">
+                    Spouse
+                  </option>
+
+                  <option value="Son">
+                    Son
+                  </option>
+
+                  <option value="Daughter">
+                    Daughter
+                  </option>
+
+                  <option value="Brother">
+                    Brother
+                  </option>
+
+                  <option value="Sister">
+                    Sister
+                  </option>
+
+                  <option value="Other">
+                    Other
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                  Gender *
+                </label>
+
+                <select
+                  class="form-select"
+                  formControlName="gender">
+
+                  <option value="">
+                    Select Gender
+                  </option>
+
+                  <option value="Male">
+                    Male
+                  </option>
+
+                  <option value="Female">
+                    Female
+                  </option>
+
+                  <option value="Other">
+                    Other
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <!-- Date of Birth + Phone -->
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                  Date of Birth *
+                </label>
+
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="dateOfBirth">
+
+              </div>
+
+
+              <div class="col-md-6 mb-3">
+
+                <label class="form-label">
+                  Phone Number *
+                </label>
+
+                <input
+                  type="tel"
+                  class="form-control"
+                  maxlength="10"
+                  formControlName="phoneNumber"
+                  placeholder="Enter 10-digit mobile number"
+                  (keypress)="allowOnlyNumbers($event)">
+
+                @if (
+                  memberForm.get('phoneNumber')?.touched &&
+                  memberForm.get('phoneNumber')?.invalid
+                ) {
+
+                  <small class="text-danger">
+                    Enter a valid 10-digit mobile number.
+                  </small>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Email
+                <span class="text-muted">
+                  (Optional)
+                </span>
+              </label>
+
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+                placeholder="Enter email address">
+
+            </div>
+
+
+            <!-- Occupation -->
+
+            <div class="mb-4">
+
+              <label class="form-label">
+                Occupation
+                <span class="text-muted">
+                  (Optional)
+                </span>
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                formControlName="occupation"
+                placeholder="Example: Software Engineer">
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- ========================= -->
+            <!-- IDENTITY VERIFICATION -->
+            <!-- ========================= -->
+
+            <h4 class="mb-3">
+              Identity Verification
+            </h4>
+
+
+            <div class="alert alert-info">
+
+              <strong>
+                Verification Required
+              </strong>
+
+              <br>
+
+              Aadhaar and PAN are required to verify
+              the family member.
+
+            </div>
+
+
+            <!-- Aadhaar -->
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Aadhaar Number *
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                maxlength="12"
+                formControlName="aadhaarNumber"
+                placeholder="Enter 12-digit Aadhaar number"
+                (keypress)="allowOnlyNumbers($event)">
+
+              @if (
+                memberForm.get('aadhaarNumber')?.touched &&
+                memberForm.get('aadhaarNumber')?.invalid
+              ) {
+
+                <small class="text-danger">
+                  Enter a valid 12-digit Aadhaar number.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- PAN -->
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                PAN Number *
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                maxlength="10"
+                formControlName="panNumber"
+                placeholder="Example: ABCDE1234F"
+                style="text-transform: uppercase;">
+
+              @if (
+                memberForm.get('panNumber')?.touched &&
+                memberForm.get('panNumber')?.invalid
+              ) {
+
+                <small class="text-danger">
+                  Enter a valid PAN number.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- Photograph -->
+
+            <div class="mb-4">
+
+              <label class="form-label">
+                Photograph
+                <span class="text-muted">
+                  (Optional)
+                </span>
+              </label>
+
+              <input
+                type="file"
+                class="form-control"
+                accept="image/*"
+                (change)="onPhotoSelected($event)">
+
+              <small class="text-muted">
+                Upload a clear passport-size photograph.
+              </small>
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- ========================= -->
+            <!-- LOGIN DETAILS -->
+            <!-- ========================= -->
+
+            <h4 class="mb-3">
+              Login Details
+            </h4>
+
+
+            <!-- Password -->
+
+            <div class="mb-3">
+
+              <label class="form-label">
+                Password *
+              </label>
+
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Create password">
+
+              @if (
+                memberForm.get('password')?.touched &&
+                memberForm.get('password')?.invalid
+              ) {
+
+                <small class="text-danger">
+
+                  Password must contain uppercase,
+                  lowercase, number and special character.
+
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- Confirm Password -->
+
+            <div class="mb-4">
+
+              <label class="form-label">
+                Confirm Password *
+              </label>
+
+              <input
+                type="password"
+                class="form-control"
+                formControlName="confirmPassword"
+                placeholder="Confirm password">
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="d-flex gap-2">
+
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancel()">
+
+                Cancel
+
+              </button>
+
+
+              <button
+                type="submit"
+                class="btn btn-primary flex-grow-1">
+
+                Add Family Member
+
+              </button>
+
+            </div>
+
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
