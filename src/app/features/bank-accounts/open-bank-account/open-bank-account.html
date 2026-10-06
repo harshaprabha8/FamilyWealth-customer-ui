@@ -1,0 +1,508 @@
+<div class="bank-account-page">
+
+  <!-- ================================================= -->
+  <!-- PAGE HEADER -->
+  <!-- ================================================= -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Open Family Bank Account</h1>
+
+      <p>
+        Create a bank account for your entire family.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="back-button"
+      (click)="cancel()">
+
+      ← Back
+
+    </button>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- SUCCESS MESSAGE -->
+  <!-- ================================================= -->
+
+  @if (successMessage) {
+
+    <div class="alert success-alert">
+
+      <span class="alert-icon">✓</span>
+
+      <div>
+        <strong>Application Submitted</strong>
+
+        <p>
+          {{ successMessage }}
+        </p>
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- ================================================= -->
+  <!-- ERROR MESSAGE -->
+  <!-- ================================================= -->
+
+  @if (errorMessage) {
+
+    <div class="alert error-alert">
+
+      <span class="alert-icon">!</span>
+
+      <div>
+        <strong>Unable to Submit</strong>
+
+        <p>
+          {{ errorMessage }}
+        </p>
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- ================================================= -->
+  <!-- FAMILY ACCOUNT INFORMATION -->
+  <!-- ================================================= -->
+
+  <div class="form-card">
+
+    <div class="section-header">
+
+      <div class="section-number">
+        1
+      </div>
+
+      <div>
+        <h2>Family Account Information</h2>
+
+        <p>
+          Your existing family account details
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>
+          Family Account Number
+        </label>
+
+        <input
+          type="text"
+          [value]="familyAccountNumber"
+          readonly
+          class="readonly-input">
+
+        <small>
+          This number will also be used as the bank account number.
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Family Name <span>*</span>
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="familyName"
+          placeholder="Enter family name">
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- ACCOUNT DETAILS -->
+  <!-- ================================================= -->
+
+  <div class="form-card">
+
+    <div class="section-header">
+
+      <div class="section-number">
+        2
+      </div>
+
+      <div>
+        <h2>Account Details</h2>
+
+        <p>
+          Select the type of family bank account
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>
+          Account Type
+        </label>
+
+        <select
+          [(ngModel)]="accountType">
+
+          <option value="FAMILY_SAVINGS">
+            Family Savings Account
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Branch <span>*</span>
+        </label>
+
+        <select
+          [(ngModel)]="branch">
+
+          <option value="">
+            Select Branch
+          </option>
+
+          <option value="Chennai Main Branch">
+            Chennai Main Branch
+          </option>
+
+          <option value="Coimbatore Branch">
+            Coimbatore Branch
+          </option>
+
+          <option value="Bangalore Branch">
+            Bangalore Branch
+          </option>
+
+          <option value="Krishnagiri Branch">
+            Krishnagiri Branch
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Initial Deposit <span>*</span>
+        </label>
+
+        <div class="input-with-symbol">
+
+          <span>₹</span>
+
+          <input
+            type="number"
+            [(ngModel)]="initialDeposit"
+            placeholder="Enter amount"
+            min="0">
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- NOMINEE DETAILS -->
+  <!-- ================================================= -->
+
+  <div class="form-card">
+
+    <div class="section-header">
+
+      <div class="section-number">
+        3
+      </div>
+
+      <div>
+        <h2>Nominee Details</h2>
+
+        <p>
+          Add a nominee for the family bank account
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+      <div class="form-group">
+
+        <label>
+          Nominee Name <span>*</span>
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="nomineeName"
+          placeholder="Enter nominee name">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Relationship <span>*</span>
+        </label>
+
+        <select
+          [(ngModel)]="nomineeRelationship">
+
+          <option value="">
+            Select Relationship
+          </option>
+
+          <option value="Father">
+            Father
+          </option>
+
+          <option value="Mother">
+            Mother
+          </option>
+
+          <option value="Spouse">
+            Spouse
+          </option>
+
+          <option value="Son">
+            Son
+          </option>
+
+          <option value="Daughter">
+            Daughter
+          </option>
+
+          <option value="Brother">
+            Brother
+          </option>
+
+          <option value="Sister">
+            Sister
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Date of Birth <span>*</span>
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="nomineeDateOfBirth">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Phone Number <span>*</span>
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="nomineePhoneNumber"
+          maxlength="10"
+          placeholder="10 digit mobile number"
+          (keypress)="allowOnlyNumbers($event)">
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- BANKING SERVICES -->
+  <!-- ================================================= -->
+
+  <div class="form-card">
+
+    <div class="section-header">
+
+      <div class="section-number">
+        4
+      </div>
+
+      <div>
+        <h2>Banking Services</h2>
+
+        <p>
+          Select the services required for the family
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="services-grid">
+
+      <label class="service-card">
+
+        <input
+          type="checkbox"
+          [(ngModel)]="debitCard">
+
+        <div>
+
+          <strong>Debit Card</strong>
+
+          <p>
+            Family debit card facility
+          </p>
+
+        </div>
+
+      </label>
+
+
+      <label class="service-card">
+
+        <input
+          type="checkbox"
+          [(ngModel)]="internetBanking">
+
+        <div>
+
+          <strong>Internet Banking</strong>
+
+          <p>
+            Manage the account online
+          </p>
+
+        </div>
+
+      </label>
+
+
+      <label class="service-card">
+
+        <input
+          type="checkbox"
+          [(ngModel)]="mobileBanking">
+
+        <div>
+
+          <strong>Mobile Banking</strong>
+
+          <p>
+            Access the account through mobile
+          </p>
+
+        </div>
+
+      </label>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- APPLICATION INFORMATION -->
+  <!-- ================================================= -->
+
+  <div class="info-box">
+
+    <div class="info-icon">
+      i
+    </div>
+
+    <div>
+
+      <strong>Important</strong>
+
+      <p>
+        Your application will be sent to a bank employee
+        for verification. The family bank account will
+        become active only after the application is approved.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- ACTION BUTTONS -->
+  <!-- ================================================= -->
+
+  <div class="form-actions">
+
+    <button
+      type="button"
+      class="cancel-button"
+      (click)="cancel()">
+
+      Cancel
+
+    </button>
+
+
+    <button
+      type="button"
+      class="submit-button"
+      [disabled]="submitting"
+      (click)="submitApplication()">
+
+      @if (submitting) {
+
+        Submitting...
+
+      } @else {
+
+        Submit Application
+
+      }
+
+    </button>
+
+  </div>
+
+</div>

@@ -47,6 +47,13 @@ export const routes: Routes = [
       },
 
       {
+  path: 'bank-account',
+  loadComponent: () =>
+    import('./features/bank-accounts/open-bank-account/open-bank-account')
+      .then(m => m.OpenBankAccount)
+},
+
+      {
         path: 'family/add',
         loadComponent: () =>
           import('./features/family/add-family-member/add-family-member')

@@ -1,10 +1,13 @@
 <div class="container py-4">
 
-  <!-- ================= HEADER ================= -->
+  <!-- ================================================= -->
+  <!-- HEADER -->
+  <!-- ================================================= -->
 
   <div class="d-flex justify-content-between align-items-center mb-4">
 
     <div>
+
       <h2 class="fw-bold mb-1">
         Family Members
       </h2>
@@ -12,7 +15,9 @@
       <p class="text-muted mb-0">
         Manage members of your family account
       </p>
+
     </div>
+
 
     <button
       type="button"
@@ -26,18 +31,39 @@
   </div>
 
 
-  <!-- ================= ERROR ================= -->
+  <!-- ================================================= -->
+  <!-- SUCCESS MESSAGE -->
+  <!-- ================================================= -->
 
-  @if (errorMessage) {
+  @if (successMessage) {
 
-    <div class="alert alert-danger">
-      {{ errorMessage }}
+    <div class="alert alert-success">
+
+      {{ successMessage }}
+
     </div>
 
   }
 
 
-  <!-- ================= FAMILY ACCOUNT ================= -->
+  <!-- ================================================= -->
+  <!-- ERROR MESSAGE -->
+  <!-- ================================================= -->
+
+  @if (errorMessage) {
+
+    <div class="alert alert-danger">
+
+      {{ errorMessage }}
+
+    </div>
+
+  }
+
+
+  <!-- ================================================= -->
+  <!-- FAMILY ACCOUNT -->
+  <!-- ================================================= -->
 
   <div class="card shadow-sm border-0 mb-4">
 
@@ -57,6 +83,7 @@
 
         </div>
 
+
         <div class="col-md-4 text-md-end">
 
           <span class="badge bg-success">
@@ -72,7 +99,9 @@
   </div>
 
 
-  <!-- ================= FAMILY MEMBERS ================= -->
+  <!-- ================================================= -->
+  <!-- FAMILY MEMBERS -->
+  <!-- ================================================= -->
 
   <div class="card shadow-sm border-0">
 
@@ -83,7 +112,9 @@
       </h5>
 
 
+      <!-- ================================================= -->
       <!-- LOADING -->
+      <!-- ================================================= -->
 
       @if (loading) {
 
@@ -103,7 +134,9 @@
       }
 
 
+      <!-- ================================================= -->
       <!-- TABLE -->
+      <!-- ================================================= -->
 
       @if (!loading && familyMembers.length > 0) {
 
@@ -115,15 +148,29 @@
 
               <tr>
 
-                <th>Name</th>
+                <th>
+                  Name
+                </th>
 
-                <th>Relationship</th>
+                <th>
+                  Relationship
+                </th>
 
-                <th>Phone</th>
+                <th>
+                  Role
+                </th>
 
-                <th>Verification</th>
+                <th>
+                  Phone
+                </th>
 
-                <th>Action</th>
+                <th>
+                  Verification
+                </th>
+
+                <th>
+                  Action
+                </th>
 
               </tr>
 
@@ -132,11 +179,17 @@
 
             <tbody>
 
-              @for (member of familyMembers; track $index) {
+              @for (
+                member of familyMembers;
+                track member.id
+              ) {
 
                 <tr>
 
+
+                  <!-- ================================================= -->
                   <!-- NAME -->
+                  <!-- ================================================= -->
 
                   <td>
 
@@ -147,11 +200,15 @@
                   </td>
 
 
+                  <!-- ================================================= -->
                   <!-- RELATIONSHIP -->
+                  <!-- ================================================= -->
 
                   <td>
 
-                    @if (member.role === 'FAMILY_HEAD') {
+                    @if (
+                      member.role === 'FAMILY_HEAD'
+                    ) {
 
                       Family Head
 
@@ -164,7 +221,28 @@
                   </td>
 
 
+                  <!-- ================================================= -->
+                  <!-- ROLE -->
+                  <!-- ================================================= -->
+
+                  <td>
+
+                    <span
+                      class="role-badge"
+                      [ngClass]="
+                        getRoleBadgeClass(member.role)
+                      ">
+
+                      {{ getRoleDisplay(member.role) }}
+
+                    </span>
+
+                  </td>
+
+
+                  <!-- ================================================= -->
                   <!-- PHONE -->
+                  <!-- ================================================= -->
 
                   <td>
 
@@ -173,7 +251,9 @@
                   </td>
 
 
+                  <!-- ================================================= -->
                   <!-- VERIFICATION -->
+                  <!-- ================================================= -->
 
                   <td>
 
@@ -184,18 +264,57 @@
                   </td>
 
 
+                  <!-- ================================================= -->
                   <!-- ACTION -->
+                  <!-- ================================================= -->
 
                   <td>
 
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-outline-primary"
-                      (click)="viewMember(member)">
+                    <div class="d-flex gap-2 flex-wrap">
 
-                      View
 
-                    </button>
+                      <!-- VIEW -->
+
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-primary"
+                        (click)="viewMember(member)">
+
+                        View
+
+                      </button>
+
+
+                      <!-- EDIT -->
+
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-warning"
+                        (click)="editMember(member)">
+
+                        Edit
+
+                      </button>
+
+
+                      <!-- DELETE -->
+
+                      @if (
+                        member.role !== 'FAMILY_HEAD'
+                      ) {
+
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-outline-danger"
+                          (click)="confirmDelete(member)">
+
+                          Delete
+
+                        </button>
+
+                      }
+
+                    </div>
 
                   </td>
 
@@ -212,15 +331,22 @@
       }
 
 
+      <!-- ================================================= -->
       <!-- NO MEMBERS -->
+      <!-- ================================================= -->
 
-      @if (!loading && familyMembers.length === 0 && !errorMessage) {
+      @if (
+        !loading &&
+        familyMembers.length === 0 &&
+        !errorMessage
+      ) {
 
         <div class="text-center py-4">
 
           <p class="text-muted mb-3">
             No family members found.
           </p>
+
 
           <button
             type="button"
@@ -242,9 +368,9 @@
 </div>
 
 
-<!-- ================================================= -->
+<!-- ===================================================== -->
 <!-- VIEW MEMBER POPUP -->
-<!-- ================================================= -->
+<!-- ===================================================== -->
 
 @if (selectedMember) {
 
@@ -253,13 +379,17 @@
     <div class="member-modal">
 
 
-      <!-- POPUP HEADER -->
+      <!-- ================================================= -->
+      <!-- VIEW HEADER -->
+      <!-- ================================================= -->
 
-      <div class="d-flex justify-content-between align-items-center mb-4">
+      <div
+        class="d-flex justify-content-between align-items-center mb-4">
 
         <h4 class="fw-bold mb-0">
           Family Member Details
         </h4>
+
 
         <button
           type="button"
@@ -271,7 +401,9 @@
       </div>
 
 
+      <!-- ================================================= -->
       <!-- MEMBER DETAILS -->
+      <!-- ================================================= -->
 
       <div class="row g-3">
 
@@ -280,10 +412,37 @@
 
         <div class="col-md-6">
 
-          <strong>Full Name</strong>
+          <strong>
+            Full Name
+          </strong>
 
           <p>
             {{ selectedMember.fullName || 'Not provided' }}
+          </p>
+
+        </div>
+
+
+        <!-- ROLE -->
+
+        <div class="col-md-6">
+
+          <strong>
+            Role
+          </strong>
+
+          <p>
+
+            <span
+              class="role-badge"
+              [ngClass]="
+                getRoleBadgeClass(selectedMember.role)
+              ">
+
+              {{ getRoleDisplay(selectedMember.role) }}
+
+            </span>
+
           </p>
 
         </div>
@@ -293,11 +452,15 @@
 
         <div class="col-md-6">
 
-          <strong>Relationship</strong>
+          <strong>
+            Relationship
+          </strong>
 
           <p>
 
-            @if (selectedMember.role === 'FAMILY_HEAD') {
+            @if (
+              selectedMember.role === 'FAMILY_HEAD'
+            ) {
 
               Family Head
 
@@ -316,7 +479,9 @@
 
         <div class="col-md-6">
 
-          <strong>Date of Birth</strong>
+          <strong>
+            Date of Birth
+          </strong>
 
           <p>
             {{ selectedMember.dateOfBirth || 'Not provided' }}
@@ -329,7 +494,9 @@
 
         <div class="col-md-6">
 
-          <strong>Gender</strong>
+          <strong>
+            Gender
+          </strong>
 
           <p>
             {{ selectedMember.gender || 'Not provided' }}
@@ -342,7 +509,9 @@
 
         <div class="col-md-6">
 
-          <strong>Phone Number</strong>
+          <strong>
+            Phone Number
+          </strong>
 
           <p>
             {{ selectedMember.phoneNumber || 'Not provided' }}
@@ -355,7 +524,9 @@
 
         <div class="col-md-6">
 
-          <strong>Email</strong>
+          <strong>
+            Email
+          </strong>
 
           <p>
             {{ selectedMember.email || 'Not provided' }}
@@ -368,7 +539,9 @@
 
         <div class="col-md-6">
 
-          <strong>Occupation</strong>
+          <strong>
+            Occupation
+          </strong>
 
           <p>
             {{ selectedMember.occupation || 'Not provided' }}
@@ -381,7 +554,9 @@
 
         <div class="col-md-6">
 
-          <strong>Aadhaar Number</strong>
+          <strong>
+            Aadhaar Number
+          </strong>
 
           <p>
             {{ selectedMember.aadhaarNumber || 'Not provided' }}
@@ -394,7 +569,9 @@
 
         <div class="col-md-6">
 
-          <strong>PAN Number</strong>
+          <strong>
+            PAN Number
+          </strong>
 
           <p>
             {{ selectedMember.panNumber || 'Not provided' }}
@@ -403,24 +580,16 @@
         </div>
 
 
-        <!-- ROLE -->
+        <!-- FAMILY ACCOUNT -->
 
         <div class="col-md-6">
 
-          <strong>Role</strong>
+          <strong>
+            Family Account Number
+          </strong>
 
           <p>
-
-            @if (selectedMember.role === 'FAMILY_HEAD') {
-
-              Family Head
-
-            } @else {
-
-              Family Member
-
-            }
-
+            {{ selectedMember.familyAccountNumber || 'Not provided' }}
           </p>
 
         </div>
@@ -428,7 +597,9 @@
       </div>
 
 
-      <!-- POPUP FOOTER -->
+      <!-- ================================================= -->
+      <!-- VIEW FOOTER -->
+      <!-- ================================================= -->
 
       <hr>
 
@@ -440,6 +611,445 @@
           (click)="closeMember()">
 
           Close
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+
+
+<!-- ===================================================== -->
+<!-- EDIT MEMBER POPUP -->
+<!-- ===================================================== -->
+
+@if (editMode && editMemberData) {
+
+  <div class="member-overlay">
+
+    <div class="member-modal">
+
+
+      <!-- ================================================= -->
+      <!-- EDIT HEADER -->
+      <!-- ================================================= -->
+
+      <div
+        class="d-flex justify-content-between align-items-center mb-4">
+
+        <h4 class="fw-bold mb-0">
+          Edit Family Member
+        </h4>
+
+
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="cancelEdit()">
+        </button>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- EDIT FORM -->
+      <!-- ================================================= -->
+
+      <div class="row g-3">
+
+
+        <!-- FULL NAME -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="editMemberData.fullName">
+
+        </div>
+
+
+        <!-- ROLE DISPLAY ONLY -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Role
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            [value]="
+              getRoleDisplay(editMemberData.role)
+            "
+            disabled>
+
+        </div>
+
+
+        <!-- RELATIONSHIP -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Relationship
+          </label>
+
+          <select
+            class="form-select"
+            [(ngModel)]="editMemberData.relationship">
+
+            <option value="">
+              Select Relationship
+            </option>
+
+            <option value="Father">
+              Father
+            </option>
+
+            <option value="Mother">
+              Mother
+            </option>
+
+            <option value="Brother">
+              Brother
+            </option>
+
+            <option value="Sister">
+              Sister
+            </option>
+
+            <option value="Spouse">
+              Spouse
+            </option>
+
+            <option value="Son">
+              Son
+            </option>
+
+            <option value="Daughter">
+              Daughter
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- DATE OF BIRTH -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Date of Birth
+          </label>
+
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="editMemberData.dateOfBirth">
+
+        </div>
+
+
+        <!-- GENDER -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Gender
+          </label>
+
+          <select
+            class="form-select"
+            [(ngModel)]="editMemberData.gender">
+
+            <option value="">
+              Select Gender
+            </option>
+
+            <option value="Male">
+              Male
+            </option>
+
+            <option value="Female">
+              Female
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Phone Number
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            maxlength="10"
+            [(ngModel)]="editMemberData.phoneNumber">
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Email
+          </label>
+
+          <input
+            type="email"
+            class="form-control"
+            [(ngModel)]="editMemberData.email">
+
+        </div>
+
+
+        <!-- OCCUPATION -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Occupation
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="editMemberData.occupation">
+
+        </div>
+
+
+        <!-- AADHAAR -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Aadhaar Number
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            maxlength="12"
+            [(ngModel)]="editMemberData.aadhaarNumber">
+
+        </div>
+
+
+        <!-- PAN -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            PAN Number
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            maxlength="10"
+            [(ngModel)]="editMemberData.panNumber">
+
+        </div>
+
+
+        <!-- PHOTO -->
+
+        <div class="col-md-6">
+
+          <label class="form-label fw-semibold">
+            Photo
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="editMemberData.photo">
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- EDIT FOOTER -->
+      <!-- ================================================= -->
+
+      <hr>
+
+      <div class="d-flex justify-content-end gap-2">
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancelEdit()"
+          [disabled]="saving">
+
+          Cancel
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updateMember()"
+          [disabled]="saving">
+
+          @if (saving) {
+
+            <span
+              class="spinner-border spinner-border-sm me-2">
+            </span>
+
+            Saving...
+
+          } @else {
+
+            Save Changes
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+
+
+<!-- ===================================================== -->
+<!-- DELETE CONFIRMATION POPUP -->
+<!-- ===================================================== -->
+
+@if (showDeletePopup && memberToDelete) {
+
+  <div class="member-overlay">
+
+    <div class="delete-modal">
+
+
+      <!-- ================================================= -->
+      <!-- DELETE ICON -->
+      <!-- ================================================= -->
+
+      <div class="text-center mb-3">
+
+        <div class="delete-icon">
+          ⚠
+        </div>
+
+
+        <h4 class="fw-bold mt-3">
+          Delete Family Member?
+        </h4>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- DELETE MESSAGE -->
+      <!-- ================================================= -->
+
+      <div class="text-center">
+
+        <p class="text-muted mb-2">
+
+          Are you sure you want to delete
+
+          <strong>
+            {{ memberToDelete.fullName }}
+          </strong>
+
+          from your family?
+
+        </p>
+
+
+        <p class="text-danger small">
+
+          This action cannot be undone.
+
+        </p>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- DELETE BUTTONS -->
+      <!-- ================================================= -->
+
+      <div
+        class="d-flex justify-content-center gap-2 mt-4">
+
+
+        <!-- CANCEL -->
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancelDelete()"
+          [disabled]="deleting">
+
+          Cancel
+
+        </button>
+
+
+        <!-- DELETE -->
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteMember()"
+          [disabled]="deleting">
+
+          @if (deleting) {
+
+            <span
+              class="spinner-border spinner-border-sm me-2">
+            </span>
+
+            Deleting...
+
+          } @else {
+
+            Delete
+
+          }
 
         </button>
 

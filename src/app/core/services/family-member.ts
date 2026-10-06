@@ -14,6 +14,11 @@ export class FamilyMemberService {
     private http: HttpClient
   ) {}
 
+
+  // ============================================================
+  // ADD FAMILY MEMBER
+  // ============================================================
+
   addFamilyMember(
     familyAccountNumber: string,
     memberData: any
@@ -23,7 +28,13 @@ export class FamilyMemberService {
       `${this.apiUrl}/${familyAccountNumber}`,
       memberData
     );
+
   }
+
+
+  // ============================================================
+  // GET ALL FAMILY MEMBERS
+  // ============================================================
 
   getFamilyMembers(
     familyAccountNumber: string
@@ -32,5 +43,41 @@ export class FamilyMemberService {
     return this.http.get<any[]>(
       `${this.apiUrl}/${familyAccountNumber}`
     );
+
   }
+
+
+  // ============================================================
+  // UPDATE FAMILY MEMBER
+  // ============================================================
+
+  updateFamilyMember(
+    familyAccountNumber: string,
+    memberId: string,
+    memberData: any
+  ): Observable<any> {
+
+    return this.http.put(
+      `${this.apiUrl}/${familyAccountNumber}/${memberId}`,
+      memberData
+    );
+
+  }
+
+
+  // ============================================================
+  // DELETE FAMILY MEMBER
+  // ============================================================
+
+  deleteFamilyMember(
+    familyAccountNumber: string,
+    memberId: string
+  ): Observable<any> {
+
+    return this.http.delete(
+      `${this.apiUrl}/${familyAccountNumber}/${memberId}`
+    );
+
+  }
+
 }
